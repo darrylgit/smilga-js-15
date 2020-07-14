@@ -70,28 +70,23 @@ const menu = [
     price: 16.99,
     img: './images/item-9.jpeg',
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`
+  },
+  {
+    id: 10,
+    title: 'steak',
+    category: 'dinner',
+    price: 36.99,
+    img: './images/item-10.jpeg',
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`
   }
 ];
 
 const sectionCenter = document.querySelector('.section-center');
-const filterBtns = document.querySelectorAll(`.filter-btn`);
+const btnContainer = document.querySelector('.btn-container');
 
-// load items
 window.addEventListener('DOMContentLoaded', () => {
   displayMenuItems(menu);
-});
-
-// filter items
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', e => {
-    const filterCategory = e.currentTarget.dataset.id;
-
-    const menuCategory = menu.filter(
-      ({ category }) => category === filterCategory
-    );
-
-    displayMenuItems(filterCategory === 'all' ? menu : menuCategory);
-  });
+  displayFilterButtons();
 });
 
 const displayMenuItems = menuItems => {
@@ -113,4 +108,36 @@ const displayMenuItems = menuItems => {
     .join('');
 
   sectionCenter.innerHTML = displayMenu;
+};
+
+const displayFilterButtons = () => {
+  // render from data
+  const categories = menu.reduce(
+    (acc, { category }) => (acc.includes(category) ? acc : [...acc, category]),
+    ['all']
+  );
+
+  const categoryBtns = categories
+    .map(
+      category =>
+        `<button class="filter-btn" type="button" data-id="${category}">${category}</button>`
+    )
+    .join('');
+
+  btnContainer.innerHTML = categoryBtns;
+
+  const filterBtns = document.querySelectorAll(`.filter-btn`);
+
+  // add functionality
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', e => {
+      const filterCategory = e.currentTarget.dataset.id;
+
+      const menuCategory = menu.filter(
+        ({ category }) => category === filterCategory
+      );
+
+      displayMenuItems(filterCategory === 'all' ? menu : menuCategory);
+    });
+  });
 };
