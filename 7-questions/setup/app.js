@@ -1,6 +1,7 @@
 //using selectors inside the element
 const questions = document.querySelectorAll('.question');
 
+// event bubbling
 questions.forEach(question => {
   const btn = question.querySelector('.question-btn');
 
