@@ -16,8 +16,11 @@ let editID = '';
 //submit form
 form.addEventListener('submit', addItem);
 
+// clear items
+clearBtn.addEventListener('click', clearItems);
+
 // ****** FUNCTIONS **********
-// add item
+// function add item
 function addItem(e) {
   e.preventDefault();
   const value = grocery.value;
@@ -52,6 +55,12 @@ function addItem(e) {
 
     // show container
     container.classList.add('show-container');
+
+    // add to local storage
+    addToLocalStorage(id, value);
+
+    // set back to default
+    setBackToDefault();
   } else if (value && editFlag) {
     console.log('editing');
   } else {
@@ -59,7 +68,7 @@ function addItem(e) {
   }
 }
 
-// display alert
+// function display alert
 function displayAlert(text, action) {
   alert.textContent = text;
   alert.classList.add(`alert-${action}`);
@@ -70,6 +79,36 @@ function displayAlert(text, action) {
     alert.classList.remove(`alert-${action}`);
   }, 1000);
 }
+
+// function set back to default
+function setBackToDefault() {
+  grocery.value = '';
+  editFlag = false;
+  editID = '';
+  submitBtn.textContent = 'submit';
+}
+
+// function clear items
+function clearItems() {
+  const items = document.querySelectorAll('.grocery-item');
+
+  console.log(items);
+
+  if (items.length) {
+    items.forEach(item => {
+      list.removeChild(item);
+    });
+  }
+
+  container.classList.remove('show-container');
+  displayAlert('list emptied', 'success');
+  setBackToDefault();
+  // localStorage.removeItem('list')
+}
+
 // ****** LOCAL STORAGE **********
+function addToLocalStorage(id, value) {
+  console.log('added to local storage');
+}
 
 // ****** SETUP ITEMS **********
